@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .player {
+            display: inline-block;
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            
+        }
+
+        .dice {
+            font-size: 100px;
+            margin: 20px;
+          
+        }
+    </style>
+</head>
+
+<body>
+    
+    <h1>Dice Game</h1>
+    <div>
+        <label for="target">Target Score:</label>
+        <input type="number" id="target" value="50" min="1">
+    </div>
+    <div class="player">
+        <h2>Player 1</h2>
+        <div class="dice" id="dice1">⚄</div>
+        <p>Score: <span id="score1">0</span></p>
+        <button id="button1" onclick="rollDice()">Roll Dice</button>
+    </div>
+    <div class="player">
+        <h2>Player 2</h2>
+        <div class="dice" id="dice2">⚄</div>
+        <p>Score: <span id="score2">0</span></p>
+        <button id="button2" onclick="rollDice()">Roll Dice</button>
+    </div>
+    <br>
+    <button onclick="resetGame()">Reset Game</button>
+    <script>
+
+        let scores = [0, 0];
+        const diceSymbols = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        let player = 1
+        function rollDice() {
+
+            if (player == 1) {
+                const roll = Math.floor(Math.random() * 6) + 1;
+                document.getElementById("dice1").textContent = diceSymbols[roll - 1];
+                scores[player - 1] += roll;
+                document.getElementById("score1").textContent = scores[player - 1];
+                const target = parseInt(document.getElementById('target').value);
+                if (scores[player - 1] >= target) {
+                    alert(`Player ${player} wins!`);
+                    resetGame();
+                }
+                const button1 = document.getElementById("button1");
+                button1.disabled = true;
+                const button2 = document.getElementById("button2");
+                button2.disabled = false;
+                player = 2;
+
+            }
+            else if (player == 2) {
+                const roll = Math.floor(Math.random() * 6) + 1;
+                document.getElementById("dice2").textContent = diceSymbols[roll - 1];
+                scores[player - 1] += roll;
+                document.getElementById("score2").textContent = scores[player - 1];
+                const target = parseInt(document.getElementById('target').value);
+                if (scores[player - 1] >= target) {
+                    alert(`Player ${player} wins!`);
+                    resetGame();
+                }
+                const button2 = document.getElementById("button2");
+                button2.disabled = true;
+                const button1 = document.getElementById("button1");
+                button1.disabled = false;
+                player = 1;
+            }
+
+
+        }
+
+
+        function resetGame() {
+            scores = [0, 0];
+            document.getElementById('score1').textContent = '0';
+            document.getElementById('score2').textContent = '0';
+            document.getElementById('dice1').textContent = '⚄';
+            document.getElementById('dice2').textContent = '⚄';
+        }
+    </script>
+</body>
+
+</html>
